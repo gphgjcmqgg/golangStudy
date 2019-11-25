@@ -50,8 +50,93 @@ n3 := 100
     两个表现形式：
     "" 双引号
     `` 反引号
+    字符串可以进行拼接 "+"    "+="      可以换行拼接   多行拼接+要保留在上行
+
+## 基本数据类型默认值
+
+    int     0
+    float   0
+    string  ""
+    bool    false
+
+## 基本数据类型转换
+
+    golang中数据类型不能自动转换
+    var i int32 = 100
+    var b int8 = int8(i)    --类型转换方式
+
+## 基本数据类型和string的转换
+
+    fmt.Sprintf     --Sprintf根据format参数生成格式化的字符串并返回
+    // 基本数据类型转string
+    var num1 int = 99
+    var num2 float64 = 23.456
+    var b bool = true
+    var myChar byte = 'h'
+    var str string // 空的
+
+    // 方式1 fmt.Sprintf方法
+    str = fmt.Sprintf("%d", num1)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    str = fmt.Sprintf("%f", num2)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    str = fmt.Sprintf("%t", b)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    str = fmt.Sprintf("%c", myChar)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    // 方式2 使用strconv包的函数
+    str = strconv.FormatInt(int64(num1), 10)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    // strconv.FormatFloat(num2, 'f', 10 , 64)
+    // 说明： 'f'格式  10：表示小数位保留10位   64表示这个小数是64位的
+    str = strconv.FormatFloat(num2, 'f', 10 , 64)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    str = strconv.FormatBool(b)
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+    // 使用strconv包中有一个函数Itoa
+    var num5 int64 = 4567
+    str = strconv.Itoa(int(num5))
+    fmt.Printf("str type %T str=%q\n", str, str)
+
+## string转基本数据类型
+
+    string类型转成基本数据类型时，如何不能转换成目标类型，golang直接将其转成0
+    // string转基本数据类型
+    var str1 string = "true"
+    var b3 bool
+    // 1.strconv.ParseBool(str) 函数会返回两个值 （vaule bool, err error）
+    // 2.只想获取到value bool，不需要获取err error，所以使用 _来忽略
+    b3 , _ = strconv.ParseBool(str1)
+    fmt.Printf("b3 type %T b3=%v\n", b3, b3)
+
+    var str2 string = "1234590"
+    var i3 int64
+    i3 , _ = strconv.ParseInt(str2, 10, 64)
+    fmt.Printf("i3 type %T i3=%v\n", i3, i3)
+
+    var str3 string = "123.456"
+    var f4 float64
+    f4 , _ = strconv.ParseFloat(str3, 64)
+    fmt.Printf("f4 type %T f4=%v\n", f4, f4)
 
 ## fmt
 
     fmt.Println("XXXXX")
-    fmt.Printf("")     --fmt.Printf("n的数据类型%T 占用字节数是%a", n, unsafe.Sizeof(n))  n的数据类型int 占用字节数是8
+    fmt.Printf("")     --fmt.Printf("n的数据类型%T 占用字节数是%a", n, unsafe.Sizeof(n))  n的数据类型int 占用字节数是8      %v 表示按原值输出
+
+    引入包使用
+    import "fmt"
+    import (
+        "fmt"
+    )
+
+    import (
+        _ "fmt" // 如果没有使用到一个包，但是又不想删除，前面加一个_, 表示忽略
+    )
