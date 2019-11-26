@@ -16,4 +16,12 @@ func main() {
 	fmt.Printf("ptr的地址=%v\n", &ptr)
 	fmt.Printf("ptr指向的值=%v\n", *ptr)
 
+	var num int = 9
+	fmt.Printf("num的地址=%v\n", &num)
+
+	var pot *int = &num
+	fmt.Printf("pot的地址=%v\n", pot)
+
+	*pot = 10
+	fmt.Printf("num=%v", num)
 }
