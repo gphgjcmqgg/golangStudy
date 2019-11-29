@@ -169,3 +169,25 @@ n3 := 100
         "go_code/project01/referVar/refer"
     )
     fmt.Println(refer.FileName)
+
+## 算数运算符
+运算符  /           整数之间做除法，只保留整数部分而舍弃小数部分。例如: x:=19/5    --3
+运算符  %           等价 a % b = a - a / b * b
+运算符 ++ or --     只能独立使用  只有后++，后--
+
+两数交换案例
+a:= 7
+b:= 2
+temp:= a
+a:=b
+b:=temp
+
+a:=10
+b:=20
+a = a + b
+b = a - b   // b = a + b - b  => b = a
+a = a - b   // a = a + b - a  => a = b
+
+## 键盘输入语句
+导入fmt包
+调用fmt包的 fmt.Scanln() 或者 fmt.Scanf()
