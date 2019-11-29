@@ -162,3 +162,10 @@ n3 := 100
 
 如果变量名、函数名、常量名首字母大写，则可以被其他的包访问；如果首字母小写，则只能在本包中使用
 首字母大写（public） 首字母小写（private）
+    // 定义公有
+    var FileName string = "代办"
+    -- 外部引用
+    import (
+        "go_code/project01/referVar/refer"
+    )
+    fmt.Println(refer.FileName)
