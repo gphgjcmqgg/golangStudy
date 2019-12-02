@@ -52,20 +52,20 @@ n3 := 100
     `` 反引号
     字符串可以进行拼接 "+"    "+="      可以换行拼接   多行拼接+要保留在上行
 
-## 基本数据类型默认值
+### 基本数据类型默认值
 
     int     0
     float   0
     string  ""
     bool    false
 
-## 基本数据类型转换
+### 基本数据类型转换
 
     golang中数据类型不能自动转换
     var i int32 = 100
     var b int8 = int8(i)    --类型转换方式
 
-## 基本数据类型和string的转换
+### 基本数据类型和string的转换
 
     fmt.Sprintf     --Sprintf根据format参数生成格式化的字符串并返回
     // 基本数据类型转string
@@ -105,7 +105,7 @@ n3 := 100
     str = strconv.Itoa(int(num5))
     fmt.Printf("str type %T str=%q\n", str, str)
 
-## string转基本数据类型
+### string转基本数据类型
 
     string类型转成基本数据类型时，如何不能转换成目标类型，golang直接将其转成0，false 类型默认值
 
@@ -171,6 +171,7 @@ n3 := 100
     fmt.Println(refer.FileName)
 
 ## 算数运算符
+
 运算符  /           整数之间做除法，只保留整数部分而舍弃小数部分。例如: x:=19/5    --3
 运算符  %           等价 a % b = a - a / b * b
 运算符 ++ or --     只能独立使用  只有后++，后--
@@ -189,5 +190,85 @@ b = a - b   // b = a + b - b  => b = a
 a = a - b   // a = a + b - a  => a = b
 
 ## 键盘输入语句
+
 导入fmt包
 调用fmt包的 fmt.Scanln() 或者 fmt.Scanf()
+var name string
+fmt.Scanln(&name)
+fmt.Scanf("%s", &name)
+
+## 进制
+
+var i int = 5
+fmt.Printf("%b", i)
+
+## switch
+
+匹配项后面不用带break,case后的表达式可以有多个，使用，间隔
+方式1：
+var score int = 30
+switch {
+    case score > 90:
+        ...
+    case score >= 70 && score <= 90:
+        ...
+    default :
+        ...
+}
+
+方式2：
+switch score:= 90; {
+    case score > 90:
+        ...
+    case score >= 70 && score <= 90:
+        ...
+    default :
+        ...
+}
+
+switch穿透 fallthrough
+
+## for
+
+方式1：
+for i:=1; i<=10; i++ {
+    fmt.Println(i)
+}
+方式2：
+j := 1
+for j <= 10 {
+    fmt.Println(j)
+    j++
+}
+方式3：
+for {
+}
+==
+for ;; {
+
+}
+方式4：for-range
+var str string = "abc~ok"
+for index, val := range str {
+    fmt.Printf("index=%d, val=%c \n", index, val)
+}
+
+字符串遍历
+var str string = "abc~ok"
+for i:= 0; i < len(str); i++ {
+    fmt.Printf("%c \n", str[i])
+}
+
+如何字符串含有中文，传统遍历会出现乱码，传统遍历是按照字节遍历，而一个汉字在utf8编码是对应3个字节
+var str1 string = "hello,world!上海"
+str2 := []rune(str1)
+for i:= 0; i < len(str2); i++ {
+        fmt.Printf("%c \n", str2[i])
+}
+
+## 获取随机数
+
+为了生成一个随机数，还需要给rand设置一个种子
+time.Now().UnixNano() : 返回一个从1970.01.01 的0时0分0秒的豪秒数
+rand.Seed(time.Now().Unix())
+rand.Intn(100)      获取[0, 100)的随机数
