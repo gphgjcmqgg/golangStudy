@@ -272,3 +272,28 @@ for i:= 0; i < len(str2); i++ {
 time.Now().UnixNano() : 返回一个从1970.01.01 的0时0分0秒的豪秒数
 rand.Seed(time.Now().Unix())
 rand.Intn(100)      获取[0, 100)的随机数
+
+## 函数
+
+函数            分为自定义函数和系统函数
+func 函数名（形参列表）（返回值列表）{
+    执行语句...
+    return 返回值列表
+}
+
+## 包 package
+
+打包基本语法
+package 包名
+
+引入包的基本语法
+import "包的路径"
+在import包时，路径从$GOPATH$的src下开始，不用带src，编译器会自动从src下开始引入
+如果包名过长，可以取个别名
+import (
+    "fmt"
+    util "go_code/project01/func/utils"
+)
+相同包下 不能有相同的函数名
+编译项目
+go build -o bin/my.exe go_code/project01/func/main
