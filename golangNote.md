@@ -280,6 +280,19 @@ func 函数名（形参列表）（返回值列表）{
     执行语句...
     return 返回值列表
 }
+1)如何返回多个值时，在接收时，希望忽略某个返回值，则使用 _ 符号表示占位忽略
+2)如果返回值只有一个，（返回值类型列表）可以不写()
+func getSumAndSub(n1 int, n2 int) (int, int) {
+    sum := n1 + n2
+    sub := n1 - n2
+    return sum, sub
+}
+func main() {
+    res1,res2 := getSumAndSub(2, 1)
+    fmt.Println("sum=",res1,", sub=", res2)
+    _, res3 := getSumAndSub(5, 1)
+    fmt.Println(" sub=", res3)
+}
 
 ## 包 package
 
@@ -297,3 +310,7 @@ import (
 相同包下 不能有相同的函数名
 编译项目
 go build -o bin/my.exe go_code/project01/func/main
+
+## 函数递归调用
+
+一个函数在函数体内又调用了本身，称为递归调用
