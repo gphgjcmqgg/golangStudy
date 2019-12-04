@@ -351,3 +351,68 @@ go build -o bin/my.exe go_code/project01/func/main
 
 每一个源文件都可以包含一个init函数，该函数会在main函数执行前，被go运行框架调用，也就是说init会在main函数前被调用
 如果一个文件同时包含全局变量定义,init函数和main函数，那么执行的流程 全局变量定义->init函数->main函数
+main函数 引用了其他包文件 函数执行顺序
+引入包变量定义-> 引入包init-> main变量定义-> main的init函数-> main函数
+
+## 匿名函数
+
+匿名函数使用方式1
+在定义匿名函数时就直接调用，这种方式只能调用一次
+    res := func (n1 int, n2 int) int {
+        return n1 + n2
+    }(10, 20)
+    fmt.Println("res=",res)
+
+匿名函数使用方式2
+将匿名函数赋给一个变量（函数变量），在通过该变量来调用匿名函数
+    a := func (n1 int, n2 int) int {
+        return n1 - n2
+    }
+    res2 := a(20, 10)
+    fmt.Println("res2=",res2)
+
+全局匿名函数
+    var (
+        // fun1就是一个全局匿名函数
+        Fun1 = func(n1 int, n2 int) int {
+            return n1 * n2
+        }
+    )
+
+## 闭包
+
+闭包就是一个函数和与其相关的引用环境组合的一个整体（实体）
+    func AddUpper() func(int) int {
+        var n int = 10
+        return func (x int) int {
+            n = n + x
+            return n
+        }
+    }
+    func main() {
+        f := AddUpper()
+        fmt.Println(f(1)) // 11
+        fmt.Println(f(2)) // 13
+        fmt.Println(f(3)) // 16
+    }
+闭包说明
+返回的是一个匿名函数，但是这个匿名函数引用到函数外的n，因此这个匿名函数就和这个n形成一个整体，构成闭包。
+闭包是类，函数时操作，n是字段。函数和它使用的n构成闭包
+
+func makeSuffix(suffix string) func(string) string{
+    return func(fileName string) string {
+        if strings.HasSuffix(fileName, suffix) {
+            return fileName
+        } else {
+            return fileName + suffix
+        }
+    }
+}
+代码说明
+1.返回的函数和makeSuffix(suffix string)的suffix变量和返回的函数组合成一个闭包，因为引用的函数引用到suffix这个变量
+2.闭包的好处，如果使用传统的方法，也可以实现这个功能，但是传统的方法需要每次都传入后缀名，比如.jpg，而闭包因为可以保留上次引用的某个值，所以我们传入一次就可以反复使用
+
+## strings.HasSuffix
+
+该函数可以判断某个字符串是否有指定的后缀
+strings.HasSuffix(s string, suffix string) bool
