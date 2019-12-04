@@ -314,3 +314,40 @@ go build -o bin/my.exe go_code/project01/func/main
 ## 函数递归调用
 
 一个函数在函数体内又调用了本身，称为递归调用
+但是递归一定要有退出条件，否则无限循环调用
+斐波那契数  递归算法
+
+## 函数调用注意点
+
+1.基本数据类型和数组默认都是值传递
+2.如果希望函数内的变量能修改函数外的变量，可以传入地址&
+3.go语言不支持函数重载
+4.在go中，函数也是一种数据类型，可以赋值给一个变量，则该变量就是一个函数类型变量了。通过该变量可以对函数调用
+5.函数既然是一种数据类型，因此在go中，函数可以作为形参，并且调用
+    func getSum(n1 int,n2 int) int {
+        return n1 + n2
+    }
+
+    func myFum(funvar func(int,int) int, n1 int ,n2 int) int {
+        return funvar(n1, n2)
+    }
+
+    func main() {
+        res := myFum(getSum, 5, 10)
+        fmt.Println("main res=" , res)
+    }
+6.为了简化数据类型定义，go支持自定义数据类型
+    type mySum func(int,int) int ,mySum等价于一个函数类型func(int,int) int
+7.支持对函数返回值命名
+    func getSumAndSub(n1 int, n2 int) (sum int, sub int) {
+        sum = n1 + n2
+        sub = n1 - n2
+        return
+    }
+8.使用 _ 标识符，忽略返回值
+9.go支持可变参数
+
+## init函数
+
+每一个源文件都可以包含一个init函数，该函数会在main函数执行前，被go运行框架调用，也就是说init会在main函数前被调用
+如果一个文件同时包含全局变量定义,init函数和main函数，那么执行的流程 全局变量定义->init函数->main函数
