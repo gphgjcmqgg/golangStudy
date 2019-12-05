@@ -416,3 +416,29 @@ func makeSuffix(suffix string) func(string) string{
 
 该函数可以判断某个字符串是否有指定的后缀
 strings.HasSuffix(s string, suffix string) bool
+
+## 函数的defer
+
+在函数中，经常需要创建资源（比如：数据库连接、文件句柄、锁等），为了在函数完毕后，及时的释放资源，提供defer（延时机制）
+    // 当执行到defer时，暂时不执行，会将defer后面的语句压入到独立的栈（defer栈中）
+    // 当函数执行完毕后，再从defer栈，按照先入后出的方式出栈，执行
+    defer fmt.Println("n1",n1)
+    defer fmt.Println("n2",n2)
+所以先 打印n2 , 再打印n1
+在defer压入栈时，同时也会将相关的值拷贝同时入栈
+
+defer最佳实践：
+file = openFile（文件名）
+defer file.close()
+
+connect = openDataBase()
+defer connect.close()
+
+## 作用域
+
+全局变量错误
+name := "tom"  // × 报错 在全局定义中
+原因是 name := "tom"  等价于 var name string   name = "tom"
+赋值语句不能在函数体外
+
+## 字符串中常用的函数
