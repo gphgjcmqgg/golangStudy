@@ -416,3 +416,75 @@ func makeSuffix(suffix string) func(string) string{
 
 该函数可以判断某个字符串是否有指定的后缀
 strings.HasSuffix(s string, suffix string) bool
+
+## 字符串常用的系统函数
+
+1.len       统计字符串长度,按字节len(str)
+len("hello")         5
+len("hello北")       8
+golang的编码统一为utf-8（ascii的字符（字母和数字）占一个字节，汉字占用3个字节）
+
+2.字符串遍历，同时处理有中文的问题 r := []rune(str)
+
+3.字符串转整数 n,err := strconv.Atoi("12")
+    n, err := strconv.Atoi("123")
+    if err != nil {
+        fmt.Println("错误:", err)
+    } else {
+        fmt.Println("n=", n)
+    }
+
+4.整数转字符串 str := strconv.Itoa("12")
+str = strconv.Itoa(123)
+fmt.Printf("str=%v,str=%T", str, str)
+
+5.字符串转 []byte:  var bytes = []byte("hello go")
+
+6.[]byte转字符串： str = string([]byte{97,98,99})
+
+7.10进制转2,8,16进制: str = strconv.FormatInt(123,2) // 2->8,16
+
+8.查找子串是否在指定的字符串中： strings.Contains("seafood", "foo") // true
+
+9.统计一个字符串有几个指定的子串: strings.Count("seafood sea", sea) // 2
+
+10.不区分大小写的字符串比较(==是区分字母大小写的): strings.EqualFold("abc","ABC") // True
+
+11.返回子串在字符串第一次出现的index值，如果没有，返回-1：strings.Index("NLT_abc","abc")// 4
+
+12.返回子串在字符串最后一次出现的index值如果没有，返回-1：strings.LastIndex("go golang","go")// 3
+
+13.将指定的子串替换成另外一个子串： strings.Replace("go go hello", "go", "go语言", n)
+n可以指定希望替换几个，如果n=-1表示全部替换
+
+14.按照指定的某个字符，为分割标识，将一个字符串拆分成字符串数组
+strings.Split("hello,world,ok",",")
+strArr := strings.Split("hello,world,ok",",")
+for i:= 0; i < len(strArr); i++ {
+    fmt.Printf("str[%v]=%v\n", i, strArr[i])
+}
+
+15.将字符串的字母进行大小写转换
+strings.ToLower("GO")   //go
+strings.ToUpper("go")   // GO
+
+16.将字符串左右两边的空格去掉
+strings.TrimSpace("   short boy peter   ")  // "short boy peter"
+
+17.将字符串左右两边指定的字符串去掉
+strings.Trim("! hello! "," !")          // 去掉左右两边的"!"和" "
+
+18.将字符串左边指定的字符串去掉
+strings.TrimLeft("! hello! "," !")
+
+19.将字符串右边指定的字符串去掉
+strings.TrimRighte("! hello! "," !")  
+
+20.判断字符串是否以指定字符串开头：strings.HasPerfix("ftp://192.168.10.1","ftp") // true
+
+21.判断字符串是否以指定字符串结束: strings.HasSuffix("ftp://192.168.10.1","ftp") // false
+
+## 时间和日期相关函数
+
+需要导入time包
+
