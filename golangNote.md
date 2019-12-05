@@ -487,4 +487,16 @@ strings.TrimRighte("! hello! "," !")
 ## 时间和日期相关函数
 
 需要导入time包
-
+time.Time 类型，用于表示时间
+1.获取当前时间
+    now := time.Now()
+2.通过now可以获取 年月日 时分秒
+now.Year()
+now.Month()  // May => 5    int(now.Month())
+now.Day()
+now.Hour()
+now.Minute()
+now.Second()
+3.格式化日期时间
+fmt.Printf("当前年月日 时分秒 %d-%d-%d %d:%d:%d\n",now.Year(), now.Month(),
+now.Day(),now.Hour(),now.Minute(),now.Second())
