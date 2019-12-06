@@ -524,3 +524,26 @@ now.Second()
 3.格式化日期时间
 fmt.Printf("当前年月日 时分秒 %d-%d-%d %d:%d:%d\n",now.Year(), now.Month(),
 now.Day(),now.Hour(),now.Minute(),now.Second())
+
+## 时间常量
+
+时间单位换算
+const {
+    Nanosecond Duration = 1 //纳秒
+    Microsecond = 1000 * Nanosecond //微秒
+    Millisecond = 1000 * Microsecond //毫秒
+    Second = 1000 * Millisecond    //秒
+    Minute = 60 * Second    //分钟
+    Hour = 60 * Minute    //小时
+}
+
+时间常量案例
+i:=0
+for {
+    fmt.Println(i)
+    i++
+    time.Sleep(time.Millisecond * 100) // 休眠0.1秒 100毫秒
+    if i == 100 {
+        break
+    }
+}
