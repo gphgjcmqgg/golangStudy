@@ -547,3 +547,21 @@ for {
         break
     }
 }
+
+time.Sleep(d Duration)          // 休眠
+
+time的Unix和UnixNano的方法      获取随机数
+time.Now().Unix()    time.Now().UnixNano()
+
+## go内置函数
+
+1.len   返回长度 如string、array、slice、map、channel
+2.new   用来分配内存，主要用来分配值类型，比如int、float32、struct 返回的是指针
+    num2 := new(int)
+    // num2的类型%T == *int
+    // num2的值是== 地址 0xc04200e0e0	（这个地址系统分配）
+    // num2的地址 == 地址 0xc042004030	（这个地址系统分配）
+    // num2指向的值 == 0
+    fmt.Printf("num2的类型%T, num2的值是%v, num2的地址%v, num2指向的值%v\n", num2 , num2 , &num2, *num2)
+    *num2 = 100
+    fmt.Printf("num2的类型%T, num2的值是%v, num2的地址%v, num2指向的值%v\n", num2 , num2 , &num2, *num2)
