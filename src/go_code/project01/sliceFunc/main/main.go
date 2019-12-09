@@ -31,4 +31,22 @@ func main() {
 	fmt.Println(slice4)
 	fmt.Println(slice5)
 
+	str := "hello@World"
+	sliceHello := str[6:]
+	fmt.Println(sliceHello)
+
+	str2 := "hello@mama"
+	sliceStr :=  []byte(str2)
+	sliceStr[6] = 'b'
+	sliceStr[7] = 'a'
+	sliceStr[8] = 'b'
+	sliceStr[9] = 'a'
+	str2 = string(sliceStr)
+	fmt.Println(str2)
+
+	str3 := "hello@北京"
+	sliceChineseStr :=  []rune(str3)
+	sliceChineseStr[6] = '东'
+	str3 = string(sliceChineseStr)
+	fmt.Println(str3)
 }

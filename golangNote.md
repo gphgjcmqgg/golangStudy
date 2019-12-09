@@ -699,3 +699,38 @@ copy(slice1, slice2)
 
 ## string和slice的关系
 
+1.string底层是一个byte数组，所以可以进行切片处理
+str := "hello@World"
+slice = str[6:] // World
+
+2.string是不可变的，不能通过str[0] = 'z'方式来修改字符串
+
+3.如果需要修改字符串，可以先将string->[]byte /或者 []rune ->修改 ->重新转成string
+转成[]byte后，可以处理英文数字，但是不能处理中文
+原因是[]byte字节来处理，而一个汉字，是三个字节，因此会出现乱码
+解决方法 是将 string转成 []rune即可，因为 []rune是按字符处理的，兼容汉字
+str2 := "hello@ma"
+sliceStr :=  []byte(str2)
+sliceStr[6] = 'b'
+sliceStr[7] = 'a'
+str2 = string(sliceStr)
+
+str2 = "hello@北京"
+sliceChineseStr :=  []rune(str2)
+sliceStr[6] = '东'
+
+## 排序和查找
+
+1.排序的分类
+1)内部排序
+    将需要处理的所有数据都加载到内部存储器中进行排序
+    包括（交换式排序法、选择式排序法和插入式排序法）
+2)外部排序
+    数据量过大，无法全部加载到内存中，需要借助外部存储进行排序。
+    包括（合并排序法和直接合并排序法）
+
+交换式排序法：是属于内部排序法，是运用数据值比较后，依判断规则对数据位置进行交换，以达到排序的目的
+1.交换式排序法又分为两种：
+    1)冒泡排序法(Bubble sort)
+    2)快速排序法(Quick sort)
+
