@@ -522,5 +522,16 @@ now.Hour()
 now.Minute()
 now.Second()
 3.格式化日期时间
+(1)格式化的第一种方式
 fmt.Printf("当前年月日 时分秒 %d-%d-%d %d:%d:%d\n",now.Year(), now.Month(),
 now.Day(),now.Hour(),now.Minute(),now.Second())
+
+dateStr := fmt.Sprintf("当前年月日 时分秒 %d-%d-%d %d:%d:%d\n",now.Year(), now.Month(),
+now.Day(),now.Hour(),now.Minute(),now.Second())
+
+(2)格式化的第二种方式
+fmt.Printf(now.Format("2006-01-02 15:04:05"))
+fmt.Println("")
+fmt.Printf(now.Format("2006-01-02"))
+fmt.Println("")
+fmt.Printf(now.Format("15:04:05"))
