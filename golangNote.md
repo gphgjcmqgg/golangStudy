@@ -535,3 +535,212 @@ fmt.Println("")
 fmt.Printf(now.Format("2006-01-02"))
 fmt.Println("")
 fmt.Printf(now.Format("15:04:05"))
+## 时间常量
+
+时间单位换算
+const {
+    Nanosecond Duration = 1 //纳秒
+    Microsecond = 1000 * Nanosecond //微秒
+    Millisecond = 1000 * Microsecond //毫秒
+    Second = 1000 * Millisecond    //秒
+    Minute = 60 * Second    //分钟
+    Hour = 60 * Minute    //小时
+}
+
+时间常量案例
+i:=0
+for {
+    fmt.Println(i)
+    i++
+    time.Sleep(time.Millisecond * 100) // 休眠0.1秒 100毫秒
+    if i == 100 {
+        break
+    }
+}
+
+time.Sleep(d Duration)          // 休眠
+
+time的Unix和UnixNano的方法      获取随机数
+time.Now().Unix()    time.Now().UnixNano()
+
+## go内置函数(buildin)
+
+1.len   返回长度 如string、array、slice、map、channel
+2.new   用来分配内存，主要用来分配值类型，比如int、float32、struct 返回的是指针
+    num2 := new(int)
+    // num2的类型%T == *int
+    // num2的值是== 地址 0xc04200e0e0	（这个地址系统分配）
+    // num2的地址 == 地址 0xc042004030	（这个地址系统分配）
+    // num2指向的值 == 0
+    fmt.Printf("num2的类型%T, num2的值是%v, num2的地址%v, num2指向的值%v\n", num2 , num2 , &num2, *num2)
+    *num2 = 100
+    fmt.Printf("num2的类型%T, num2的值是%v, num2的地址%v, num2指向的值%v\n", num2 , num2 , &num2, *num2)
+
+## go错误处理机制
+
+go引入的错误处理方式：defer、panic、recover，
+go中可以抛出一个panic的异常，然后在defer中通过recover捕获这个异常，然后正常处理
+
+defer + recover来处理异常
+defer func () {
+    err := recover() // recover()内置函数、可以捕获到异常
+    if err != nil { // 说明捕获到错误
+        fmt.Println("err=",err)
+    }
+}()
+
+## go自定义错误处理
+
+errors.New("错误说明"), 会返回一个error类型的值，表示一个错误
+panic内置函数，接收一个interface{}类型的值作为参数。可以接收recover类型变量,输出错误信息，并退出程序。
+
+## 数组
+
+数组可以存放多个同一类型数据。数组也是一种数据类型，在go中，数组是值类型
+
+数组定义
+var 数组名 [数组大小]数据类型
+var a [6]float64
+赋初值
+a[0] = 1.0
+
+数组的地址可以通过数组名来获取&a
+数组的元素的地址、就是数组元素第一个元素的地址
+
+    // 数组几种初始化的方式
+    var numArr01 [3]int = [3]int{1,2,3}
+    fmt.Println("numArr01=", numArr01)
+
+    var numArr02 = [3]int{5,6,7}
+    fmt.Println("numArr02=", numArr02)
+
+    var numArr03 = [...]int{7,8,9}
+    fmt.Println("numArr03=", numArr03)
+
+    var numArr04 = [...]int{1:700,0:800,2:900}
+    fmt.Println("numArr04=", numArr04)
+
+    numArr05 := [3]int{15,16,17}
+    fmt.Println("numArr05=", numArr05)
+
+数组遍历
+
+1. for循环遍历
+2. for-range遍历
+for i,v := range numArr03 {
+    fmt.Printf("index=%d, value=%v \n", i, v)
+}
+
+数组的注意细节
+1.数组是多个相同类型数据的组合，一个数组一旦声明，其长度固定，不能动态变化
+2.数组创建后，如果没有赋值，有默认值
+3.数组下标从0开始
+4.go的数组属值类型，在默认情况下是值传递，因此会进行值拷贝，数组间不会相互影响
+5.如想在其他函数中，去修改原来的数组，可以使用引用传递（指针方式）
+func test(arr *[3]int) {
+    (*arr)[0] = 55
+}
+6.长度是数组类型的一部分，在传递函数参数时需要考虑数组的长度。
+
+## 切片 slice
+
+为什么需要切片
+1.需要保存个数不确定的数据
+2.切片是数组的一个引用，切片是引用类型，在进行传递时，遵守引用传递的机制
+3.切片的使用和数组类似，遍历切片、访问切片的元素和求切片长度len都一样
+4.切片的长度是可以变化的
+5.切片定义的基本语法
+var 变量名 []数据类型
+var a []int
+
+slice案例
+var intArr [5]int = [5]int{1,22,33,66,99}
+// slice为切片
+// intArr[1:3]表示slice引用到intArr这个数组的第二个元素到第三个元素
+// 引用intArr数组的起始下标为1，最后的下标为3（但是不包含3）
+slice := intArr[1:3]
+fmt.Println(slice)
+
+slice 分析   保存了 一个引用首地址，一个切片长度，一个切片容量
+type slice struct {
+    ptr *[2]int
+    len int
+    cap int
+}
+
+切片使用的三种方式
+1.定义一个切片，然后让切片去引用一个已经创建的数组
+var intArr [5]int = [5]int{1,22,33,66,99}
+slice := intArr[1:3]
+
+2.通过make来创建切片
+基本语法：
+var 切片名 []type = make([]type,len,[cap])
+参数说明: type：就是数据类型  len：大小 cap：指定切片容量，可选
+make方式创建切片可以指定切片的大小和容量
+如何没有给切片的各个元素赋值，那么就会使用默认值
+通过make方式创建的切片对应的数组是由make底层维护，对外不可见，即只能通过slice去访问
+
+3.定义一个切片，直接就指定具体数组，使用原理类似make的方式
+var slice []int = []int{1, 3, 5}
+
+切片注意细节
+1.切片初始化时 var slice = arr[startIndex:endIndex]
+说明:从arr数组下标为startIndex，取到下标为endIndex的元素（不含arr[endIndex]）
+
+2.切片初始化可以简写
+var slice = arr[0:end]            ==>var slice = arr[:end]
+var slice = arr[start:len(arr)]   ==>var slice = arr[start:]
+var slice = arr[0:len(arr)]       ==>var slice = arr[:]
+
+3.切片可以继续切片
+
+4.切片可以用append内置函数，进行动态追加扩容
+var slice []int = []int{100,200,300}
+slice = append(slice, 400,500,600)
+// 切片追加切片
+slice1 = append(slice1, slice1...)
+
+5.切片的拷贝操作
+切片使用copy内置函数完成拷贝
+copy(slice1, slice2)
+(1)copy函数的参数数据类型是切片
+(2)copy的两个切片互相独立
+
+## string和slice的关系
+
+1.string底层是一个byte数组，所以可以进行切片处理
+str := "hello@World"
+slice = str[6:] // World
+
+2.string是不可变的，不能通过str[0] = 'z'方式来修改字符串
+
+3.如果需要修改字符串，可以先将string->[]byte /或者 []rune ->修改 ->重新转成string
+转成[]byte后，可以处理英文数字，但是不能处理中文
+原因是[]byte字节来处理，而一个汉字，是三个字节，因此会出现乱码
+解决方法 是将 string转成 []rune即可，因为 []rune是按字符处理的，兼容汉字
+str2 := "hello@ma"
+sliceStr :=  []byte(str2)
+sliceStr[6] = 'b'
+sliceStr[7] = 'a'
+str2 = string(sliceStr)
+
+str2 = "hello@北京"
+sliceChineseStr :=  []rune(str2)
+sliceStr[6] = '东'
+
+## 排序和查找
+
+1.排序的分类
+1)内部排序
+    将需要处理的所有数据都加载到内部存储器中进行排序
+    包括（交换式排序法、选择式排序法和插入式排序法）
+2)外部排序
+    数据量过大，无法全部加载到内存中，需要借助外部存储进行排序。
+    包括（合并排序法和直接合并排序法）
+
+交换式排序法：是属于内部排序法，是运用数据值比较后，依判断规则对数据位置进行交换，以达到排序的目的
+1.交换式排序法又分为两种：
+    1)冒泡排序法(Bubble sort)
+    2)快速排序法(Quick sort)
+
