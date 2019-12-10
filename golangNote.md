@@ -762,3 +762,72 @@ sliceStr[6] = '东'
     2.4上面的2.1、2.2、2.3的逻辑会递归执行
 3.分析递归的退出条件(leftIndex > rightIndex)
 
+## 二维数组
+
+定义/声明二维数组
+var arr [2][3]int
+arr     保存了两个指针，每个指针对应一个一维数组
+
+二维数组直接初始化
+var 数组名 [2][3]int = [2][3]int{{1,2,3},{4,5,6}}
+var 数组名 [2][3]int = [...][3]int{{1,2,3},{4,5,6}}
+var 数组名 = [2][3]int{{1,2,3},{4,5,6}}
+var 数组名 = [...][3]int{{1,2,3},{4,5,6}}
+
+## map
+
+map是key-vale数据结构，又称为字段或者关联数组。
+基本语法
+var map变量名 map[keytype]valuetype
+var a map[string]string
+var a map[string]int
+var a map[int]string
+var a map[string]map[string]string
+注意：声明是不会分配内存的，初始化需要make，分配内存后才能赋值和使用
+
+var a map[string]string
+// 在使用map前，需要先make，make的作用就是给map分配数据空间
+// map的key-value是无序的
+a = make(map[string]string,10)
+a["no1"] = "123"
+a["no2"] = "456"
+
+map使用的方式：
+1.先声明，在make
+    var a map[string]string
+    a = make(map[string]string,10)
+2.声明直接make
+    var a = make(map[string]string)
+3.声明直接赋值
+var b map[string]string = map[string]string {
+    "no1":"成都",
+}
+
+map的增删改查操作
+1.map增加和更新
+map["key"] = value  // 如何key还没有，就是增加，如果key存在就是修改
+
+2.map删除
+delete是一个内建函数，如果key存在，就删除该key-value,如果key不存在,不操作，但是也不会报错
+    delete(map, key)
+map一次删除所有key细节：
+1.遍历所有key，逐一删除
+2.直接make一个新的空间
+
+3.map查找
+val, findRes = heroes["no1"]
+if findRes {
+    // 找到val
+} else {
+    // 没有no1这个key
+}
+
+4.map遍历
+map遍历使用for-range的结构遍历
+
+5.map长度
+使用len(map)
+
+6.map切片
+切片的数据类型如果是map，称为slice of map, map切片，这样使用则 map个数就可以动态变化
+
