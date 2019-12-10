@@ -751,4 +751,14 @@ sliceStr[6] = '东'
 
 常用的查找有两种
 1)顺序查找
-2)二分查找（该数组有序）
+2)二分查找（该数组有序）会使用递归
+
+二分查找思路
+1.arr是一个有序数组，并且是从小到大排序
+2.先找到中间的下标 middle = (leftIndex + rightIndex) / 2, 然后让中间下标的值和findVal进行比较
+    2.1如果arr[middle] > findVal,就应该向 leftIndex --- (middle -1)范围查找
+    2.2如果arr[middle] < findVal,就应该向 (middle +1) --- rightIndex 范围查找
+    2.3如果arr[middle] == findVal, 就找到
+    2.4上面的2.1、2.2、2.3的逻辑会递归执行
+3.分析递归的退出条件(leftIndex > rightIndex)
+
