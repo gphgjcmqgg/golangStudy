@@ -830,4 +830,54 @@ map遍历使用for-range的结构遍历
 
 6.map切片
 切片的数据类型如果是map，称为slice of map, map切片，这样使用则 map个数就可以动态变化
+var slice []map[string]string
+// map切片
+var slice []map[string]string
+slice = make([]map[string]string,2)
+if slice[0] == nil {
+    slice[0]= make(map[string]string,2)
+    slice[0]["name"] = "jack"
+    slice[0]["age"] = "34"
+}
+
+fmt.Println(slice)
+// 动态增加map，使用append
+monster := map[string]string {
+    "name" : "zhangsan",
+    "age" : "200",
+}
+slice = append(slice,monster)
+fmt.Println(slice)
+
+7.map排序
+
+如何按照map的key的顺序进行排序输出
+1.先将map的key放入到切片中
+2.对切片进行排序
+3.遍历切片，然后按照key来输出map的值
+map1 := map[int]int {
+    10:99,
+    1:5,
+    4:23,
+    7:8,
+}
+// 排序
+var keys []int
+for k,_ := range map1 {
+        keys = append(keys,k)
+}
+sort.Ints(keys)
+
+for _ ,k := range keys {
+        fmt.Printf("map[%v]=%v\t", k, map1[k])
+}
+
+map使用细节
+1.map是引用类型，遵守引用类型传递的机制，在一个函数接受map，修改后，会直接修改原map
+2.map的容量达到后，再想map增加元素，会自动扩容，不会发生panic，也就是说map能动态的增长键值对
+3.map的value经常使用struct类型，更适合管理复杂的数据
+
+## 面向对象
+
+结构体
 
