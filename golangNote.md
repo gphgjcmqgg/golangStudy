@@ -535,6 +535,7 @@ fmt.Println("")
 fmt.Printf(now.Format("2006-01-02"))
 fmt.Println("")
 fmt.Printf(now.Format("15:04:05"))
+
 ## 时间常量
 
 时间单位换算
@@ -879,5 +880,77 @@ map使用细节
 
 ## 面向对象
 
-结构体
+## 结构体
 
+golang是基于struct来实现OOP特性，golang面向接口编程是非常重要的特性
+继承：golang是通过匿名字段来实现
+
+声明结构体
+type 结构体名称 struct {
+    field1 type
+    field2 type
+}
+结构体是值类型，默认值拷贝
+
+注意：
+指针、slice和map的零值时nil，即还没有分配空间
+使用切片、map前一定要先make，分配空间
+
+创建结构体变量和访问结构体字段
+1.直接声明
+    var person Person
+2.{}
+    var person Person = Person{}
+    var cat2 Cat = Cat{"Tom", 20, "Red", "旅游"}
+3.&
+    var person *Person = new(Person)
+4.{}
+    var person *Person = &Person{}
+    var cat2 *Cat = &Cat{"Tom", 20, "Red", "旅游"}
+说明：
+1.方式3和方式4返回的是结构体指针
+2.结构体指针访问字段的标准方式应该是：(*结构体指针).变量名
+比如(*person).Name = "Tom"
+3.但go做了一个简化，也支持结构体指针.字段名,
+比如person.Name = "Tom"
+go编译器底层对person.Name做了转化(*person).Name
+
+结构体使用注意事项和细节
+1)结构体的所有字段在内存中是连续的
+2)结构体是用户单独定义的类型，和其它类型进行转换时需要有完全相同的字段(名称、个数和类型)
+3)结构体进行type重新定义（相当于取别名）,Golang认为是新的数据类型，但是相互之间可以强转
+4)struct的每个字段上，可以写上一个tag，该tag可以通过反射机制获取，常见的使用场景就是序列化和反序列化
+
+客户端                                 服务器端
+1.接受到一个json字符串                  1.假设返回一个Person变量值
+2.进行处理                             2.Person序列化[json] ->字符串
+
+转json用"encoding/json"
+jsonStr,err := json.Marshal(person) ->  转成json字符串
+例子：
+type Person struct {
+    Name string `json:"name"`           \\ `json:"name"`就是tag
+    Age int `json:"age"`
+}
+
+var person = Person{"boy",50}
+fmt.Println("person=", person)
+jsonStr,err := json.Marshal(person)         \\ json.Marshal函数中使用反射
+if err != nil {
+    fmt.Println("err=", err)
+} else {
+    fmt.Println("jsonStr=", string(jsonStr))
+}
+
+## 方法
+
+golang中的方法是作用在指定的数据类型上的（即：和指定的数据类型绑定），因此自定义类型，都可以有方法，而不仅仅是struct
+
+方法的声明和调用
+type A struct {
+    Num int
+}
+
+func(a A) test(){
+    fmt.Println(a.Name)
+}
