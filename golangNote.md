@@ -954,3 +954,62 @@ type A struct {
 func(a A) test(){
     fmt.Println(a.Name)
 }
+
+对上面语法的说明：
+1.func(a A) test(){} 表示A结构体有一方法,方法名为test
+2.(a A)体现test方法是和A类型绑定的
+例子：
+type Person struct{
+    Name string
+}
+
+// 给A类型绑定一个方法
+func (p Person) test() {
+    fmt.Println("test()", p.Name)
+}
+
+func main() {
+    var p Person
+    p.Name = "tom"
+    p.test()
+}
+上面代码总结：
+1.test方法和Person类型绑定
+2.test方法只能通过Person类型的变量来调用，而不能直接调用，也不能使用其他类型变量来调用
+3.func(p Person) test(){}       p表示哪个Person变量调用，这个p就是它的副本，这点和函数传参非常相似
+4.p这个形参名，由程序员指定，不是固定
+
+方法的声明（定义）
+func(receiver type) methodName(参数列表) (返回值列表) {
+    方法体
+    return 返回值
+}
+
+func(stu *Student) String() string {
+    str := fmt.Sprintf("Name=[%v] Age=[%v]", stu.Name, stu.Age)
+    return str
+}
+
+main() {
+    stu := Student{
+        Name: "Tom",
+        Tom: 20,
+    }
+    fmt.Printf(stu)
+}
+1.如果一个变量实现了String()这个方法，那么fmt.Println默认会调用这个变量的String()进行输出
+
+## 方法和函数区别
+
+1)调用方式不一样
+    函数的调用方式：    函数名(实参列表)
+    方法的调用方式：    变量.方法名(实参列表)
+
+2)对于普通函数，接受者为值类型时，不能将指针类型的数据直接传递，反之亦然
+3)对于方法(如struct的方法)，接收者为值类型时，可以直接用指针类型的变量调用方法，反过来同样可以
+
+总结：
+1.不管调用形式如何，真正决定是值拷贝还是地址拷贝，看这个方法是和哪个类型绑定
+2.如果和是值类型，比如（p Person），则是值拷贝，如果和指针类型，比如（p *Person），则是地址拷贝
+
+
