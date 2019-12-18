@@ -1099,3 +1099,28 @@ func(t 自定义类型) method2(参数列表)返回值列表{
 接口体现多态的两种方式
 1.多态参数
 2.多态数组
+var usbArr = [3]Usb
+usbArr[0] = Phone{}
+usbArr[1] = Phone{}
+usbArr[2] = Camera{}
+
+类型断言
+var a interface{}
+var point Point = Point{1,2}
+a = point
+var b Point
+// b = a // 报错
+b = a.(Point)  // 类型断言
+fmt.Println(b)
+基本介绍
+类型断言，由于接口是一般类型，不知道具体类型，如果要转成具体类型，就需要使用类型断言
+
+在进行类型断言时，如果类型不匹配，就会报panic，因此进行类型断言时，要确保原来的空接口指向的就是断言的类型。
+如何在进行断言时，带上检测机制，如果成功就ok，否则也不要报panic
+y,ok := x.(float64)
+if ok {
+    fmt.Println("convert success")
+} else {
+    fmt.Println("convert fail")
+}
+
